@@ -5,6 +5,8 @@ project(ocpm VERSION 1.1)
 
 
 SET( CMAKE_VERBOSE_MAKEFILE on )
+set(CMAKE_CXX_STANDARD 11)
+
 
 #static link 
 set(BUILD_SHARED_LIBS OFF)
