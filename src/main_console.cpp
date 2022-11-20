@@ -22,7 +22,13 @@ int main(int argc, char *argv[])
 {
     ansi_c_parser<ansi_c_lex> *m_parser = new ansi_c_parser<ansi_c_lex>();
 
-    m_parser->set_file_name("./test.c");
+    char * file_name="./test.c";
+    if(argc>1)
+    {
+        file_name = argv[1];
+    }
+    printf("file_name: %s\n", file_name);
+    m_parser->set_file_name(file_name);
     m_parser->m_debug = 1;
     auto p_tree = m_parser->yyparse();
 
