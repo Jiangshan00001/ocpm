@@ -2,21 +2,33 @@
 #include "ansi_c_otoken.h"
 #include "ansi_c_lex_header.h"
 #include "ansi_c_parser.h"
+#include "code_win64.h"
 
-
-int main_test(int argc, char*argv[])
+#if 0
+int main_testw64(int argc, char*argv[])
 {
-    ansi_c_lex *m_lex =  new ansi_c_lex();
-    m_lex->set_file_name("../test.c");
-    auto tk = m_lex->yylex();
-    while(tk.m_ret!=EOF_20220422_EOF)
-    {
-        std::cout<< "get tk:"<< tk.m_yytext<<"\n";
-        tk = m_lex->yylex();
-    }
+    code_win64 w64;
+    //https://learn.microsoft.com/en-us/cpp/build/x64-software-conventions?source=recommendations&view=msvc-170
+
+    std::ofstream f("out.asm");
+    f<<w64.header()<<"\n";
+    f<<w64.code_segment_gtext()<<"\n";
+    f<<w64.declare_entry_point("main")<<"\n";
+    f<<w64.gen_call("getchar")<<"\n";
+
+
+    f<<w64.put_immediate(0)<<"\n";
+    f<<w64.gen_push(0)<<"\n";
+    f<<w64.gen_call("ExitProcess")<<"\n"<<"\n";
+    f<<w64.data_segment_gdata()<<"\n";
+    f<<"hello db 'Hello world!', 10, 0  \n";
+    f<<w64.trailer()<<"\n";
+
+    f.close();
 
     return 0;
 }
+#endif
 
 int main(int argc, char *argv[])
 {
